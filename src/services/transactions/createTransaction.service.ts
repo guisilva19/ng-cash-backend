@@ -21,6 +21,11 @@ const createTransactionService = async ({ value, username }: ITransaction, user:
 
     const accountRepository = AppDataSource.getRepository(Accounts)
 
+
+    if(user.id === userRecebe.id){
+        throw new AppError('Unable to do the transaction for yourself', 401)
+    }
+
     await accountRepository.update( userRecebe.account.id,{
         balance: userRecebe.account.balance + value
     })
