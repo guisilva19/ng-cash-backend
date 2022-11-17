@@ -9,7 +9,7 @@ interface IUser {
     password: string
     account: {
         id: string
-        value: number
+        balance: number
     }
 }
 

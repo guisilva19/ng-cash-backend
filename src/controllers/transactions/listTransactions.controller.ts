@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import listTransactionsService from "../../services/transactions/listTrasnsaction.serivce"
+import listTransactionsService from "../../services/transactions/listTrasnsaction.service"
 
 const listTransactionsController  = async (req: Request, res: Response) => {
 
