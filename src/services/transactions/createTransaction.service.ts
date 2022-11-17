@@ -19,21 +19,23 @@ const createTransactionService = async ({ value, username }: ITransaction, user:
         throw new AppError('Value is missing')
     }
 
-    const accountRepository = AppDataSource.getRepository(Accounts)
-
-
-    if(user.id === userRecebe.id){
+    if (user.id === userRecebe.id) {
         throw new AppError('Unable to do the transaction for yourself', 401)
     }
 
-    await accountRepository.update( userRecebe.account.id,{
+    if (value > user.account.balance) {
+        throw new AppError('insufficient funds', 401)
+    }
+    const accountRepository = AppDataSource.getRepository(Accounts)
+
+    await accountRepository.update(user.account.id, {
+        balance: user.account.balance - value
+    })
+
+    await accountRepository.update(userRecebe.account.id, {
         balance: userRecebe.account.balance + value
     })
 
-    await accountRepository.update( user.account.id,{
-        balance: userRecebe.account.balance - value
-    })
-    
     const transactionRepository = AppDataSource.getRepository(Transactions)
 
     const transaction = transactionRepository.create({
@@ -45,6 +47,7 @@ const createTransactionService = async ({ value, username }: ITransaction, user:
     await transactionRepository.save(transaction)
 
     return transaction
+
 }
 
 export default createTransactionService
