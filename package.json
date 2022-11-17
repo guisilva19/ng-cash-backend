@@ -7,10 +7,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
-    "build": "tsc",
     "typeorm": "typeorm-ts-node-commonjs",
-    "test": "cross-env NODE_ENV=test jest",
-    "start": "node dist/server.js"
+    "test": "cross-env NODE_ENV=test SECRET_KEY=1234 jest",
+    "build": "tsc",
+    "start": "node dist/src/server.js"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
