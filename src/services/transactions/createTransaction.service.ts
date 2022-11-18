@@ -6,11 +6,17 @@ import { AppError } from "../../errors/appError"
 import { ITransaction, IUser } from "../../interfaces"
 
 const createTransactionService = async ({ value, username }: ITransaction, user: IUser) => {
-
+    
+    if (value > user.account.balance) {
+        throw new AppError('insufficient funds', 401)
+    }
     const userRepository = AppDataSource.getRepository(Users)
     const users = await userRepository.find()
     const userRecebe = users.find(user => user.username === username)
-
+    
+    
+    
+    
     if (!userRecebe) {
         throw new AppError('User not fount', 404)
     }
@@ -23,11 +29,10 @@ const createTransactionService = async ({ value, username }: ITransaction, user:
         throw new AppError('Unable to do the transaction for yourself', 401)
     }
 
-    if (value > user.account.balance) {
-        throw new AppError('insufficient funds', 401)
-    }
     const accountRepository = AppDataSource.getRepository(Accounts)
 
+
+    user.account.balance - value
     await accountRepository.update(user.account.id, {
         balance: user.account.balance - value
     })
