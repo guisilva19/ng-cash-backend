@@ -3,8 +3,8 @@ import createTransactionService from "../../services/transactions/createTransact
 
 const createTransactionController = async (req: Request, res: Response) => {
     const { value, username } = req.body
-    const user = req.data
-    const transaction = await createTransactionService({ value, username }, user)
+    const usernameCredit = req.data.username
+    const transaction = await createTransactionService({ value, username }, usernameCredit)
     return res.json(transaction)
 }
 
