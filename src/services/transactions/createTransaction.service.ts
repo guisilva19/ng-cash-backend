@@ -50,7 +50,7 @@ const createTransactionService = async ({ value, username }: ITransaction, usern
 
     await transactionRepository.save(transaction)
 
-    return userDebit
+    return transaction
 
 }
 
